@@ -1,0 +1,56 @@
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { createIdea } from '../services/ideaFactory'
+
+export const useIdeasStore = create(
+  persist(
+    (set) => ({
+      ideas: [],
+
+      addIdea: (partial) => {
+        const idea = createIdea(partial)
+        set((state) => ({ ideas: [...state.ideas, idea] }))
+        return idea
+      },
+
+      updateIdea: (id, patch) => {
+        set((state) => ({
+          ideas: state.ideas.map((idea) =>
+            idea.id === id
+              ? { ...idea, ...patch, fechaActualizacion: new Date().toISOString() }
+              : idea
+          ),
+        }))
+      },
+
+      updateEstado: (id, nuevoEstado) => {
+        set((state) => ({
+          ideas: state.ideas.map((idea) =>
+            idea.id === id
+              ? { ...idea, estado: nuevoEstado, fechaActualizacion: new Date().toISOString() }
+              : idea
+          ),
+        }))
+      },
+
+      deleteIdea: (id) => {
+        set((state) => ({ ideas: state.ideas.filter((idea) => idea.id !== id) }))
+      },
+
+      importIdeas: (ideas, mode = 'replace') => {
+        if (mode === 'replace') {
+          set({ ideas })
+          return
+        }
+        set((state) => {
+          const byId = new Map(state.ideas.map((idea) => [idea.id, idea]))
+          for (const idea of ideas) byId.set(idea.id, idea)
+          return { ideas: Array.from(byId.values()) }
+        })
+      },
+
+      resetAll: () => set({ ideas: [] }),
+    }),
+    { name: 'nodo-ideas', version: 1 }
+  )
+)
