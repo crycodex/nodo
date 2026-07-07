@@ -1,7 +1,12 @@
 import { useEffect } from 'react'
 import { useSpeechRecognition } from '../../hooks/useSpeechRecognition'
 
-export default function VoiceDictationButton({ lang, onTranscript }) {
+interface VoiceDictationButtonProps {
+  lang: string
+  onTranscript: (text: string) => void
+}
+
+export default function VoiceDictationButton({ lang, onTranscript }: VoiceDictationButtonProps) {
   const { isSupported, isListening, transcript, start, stop } = useSpeechRecognition({ lang })
 
   useEffect(() => {

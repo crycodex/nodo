@@ -1,20 +1,21 @@
 import { useRef, useState } from 'react'
+import type { ChangeEvent } from 'react'
 import Button from '../../components/ui/Button'
 import ConfirmDialog from '../../components/ui/ConfirmDialog'
 import { exportToJson, importFromFile, resetAll } from '../../services/storageService'
 
 export default function DataManagement() {
-  const fileInputRef = useRef(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [confirmReset, setConfirmReset] = useState(false)
   const [importError, setImportError] = useState('')
 
-  async function handleImportChange(event) {
+  async function handleImportChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
     event.target.value = ''
     if (!file) return
 
     const result = await importFromFile(file, 'replace')
-    setImportError(result.success ? '' : result.reason)
+    setImportError(result.success ? '' : (result.reason ?? ''))
   }
 
   return (
@@ -38,7 +39,7 @@ export default function DataManagement() {
           type="file"
           accept="application/json"
           className="hidden"
-          onChange={handleImportChange}
+          onChange={(event) => void handleImportChange(event)}
         />
         <Button variant="danger" onClick={() => setConfirmReset(true)}>
           Borrar todos los datos

@@ -1,27 +1,31 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-const SpeechRecognitionAPI =
+const SpeechRecognitionAPI: typeof SpeechRecognition | undefined =
   typeof window !== 'undefined'
     ? window.SpeechRecognition || window.webkitSpeechRecognition
     : undefined
 
-export function useSpeechRecognition({ lang = 'es-ES' } = {}) {
+interface UseSpeechRecognitionOptions {
+  lang?: string
+}
+
+export function useSpeechRecognition({ lang = 'es-ES' }: UseSpeechRecognitionOptions = {}) {
   const isSupported = Boolean(SpeechRecognitionAPI)
   const [isListening, setIsListening] = useState(false)
   const [transcript, setTranscript] = useState('')
-  const recognitionRef = useRef(null)
+  const recognitionRef = useRef<SpeechRecognition | null>(null)
 
   useEffect(() => {
-    if (!isSupported) return
+    if (!isSupported || !SpeechRecognitionAPI) return
 
     const recognition = new SpeechRecognitionAPI()
     recognition.lang = lang
     recognition.interimResults = true
     recognition.continuous = false
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const text = Array.from(event.results)
-        .map((result) => result[0].transcript)
+        .map((result) => result[0]?.transcript ?? '')
         .join(' ')
       setTranscript(text)
     }

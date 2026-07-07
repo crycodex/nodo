@@ -1,6 +1,14 @@
 import { ESTADO_IDEA } from '../../services/ideaFactory'
+import type { EstadoIdea } from '../../services/ideaFactory'
 
-export const ESTADOS = [
+export interface EstadoConfig {
+  key: EstadoIdea
+  label: string
+  color: string
+  bg: string
+}
+
+export const ESTADOS: EstadoConfig[] = [
   {
     key: ESTADO_IDEA.LLUVIA_DE_IDEAS,
     label: 'Lluvia de ideas',
@@ -27,6 +35,6 @@ export const ESTADOS = [
   },
 ]
 
-export function getEstadoConfig(estado) {
-  return ESTADOS.find((e) => e.key === estado) ?? ESTADOS[0]
+export function getEstadoConfig(estado: EstadoIdea): EstadoConfig {
+  return ESTADOS.find((e) => e.key === estado) ?? ESTADOS[0]!
 }

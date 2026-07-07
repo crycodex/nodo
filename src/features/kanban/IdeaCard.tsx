@@ -2,8 +2,13 @@ import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { ESTADOS } from './kanbanConfig'
 import { useIdeasStore } from '../../store/ideasStore'
+import type { Idea, EstadoIdea } from '../../services/ideaFactory'
 
-export default function IdeaCard({ idea }) {
+interface IdeaCardProps {
+  idea: Idea
+}
+
+export default function IdeaCard({ idea }: IdeaCardProps) {
   const updateEstado = useIdeasStore((state) => state.updateEstado)
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: idea.id,
@@ -42,7 +47,7 @@ export default function IdeaCard({ idea }) {
         <span className="sr-only">Cambiar estado de la idea</span>
         <select
           value={idea.estado}
-          onChange={(event) => updateEstado(idea.id, event.target.value)}
+          onChange={(event) => updateEstado(idea.id, event.target.value as EstadoIdea)}
           className="w-full rounded-md border border-border bg-bg px-2 py-1 text-xs text-text"
         >
           {ESTADOS.map((estado) => (

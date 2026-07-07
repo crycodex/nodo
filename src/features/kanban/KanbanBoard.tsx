@@ -1,9 +1,15 @@
 import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import type { DragEndEvent } from '@dnd-kit/core'
 import { ESTADOS } from './kanbanConfig'
 import KanbanColumn from './KanbanColumn'
 import { useIdeasStore } from '../../store/ideasStore'
+import type { Idea, EstadoIdea } from '../../services/ideaFactory'
 
-export default function KanbanBoard({ ideas }) {
+interface KanbanBoardProps {
+  ideas: Idea[]
+}
+
+export default function KanbanBoard({ ideas }: KanbanBoardProps) {
   const updateEstado = useIdeasStore((state) => state.updateEstado)
 
   const sensors = useSensors(
@@ -11,15 +17,15 @@ export default function KanbanBoard({ ideas }) {
     useSensor(KeyboardSensor)
   )
 
-  function handleDragEnd(event) {
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
     if (!over) return
-    updateEstado(active.id, over.id)
+    updateEstado(String(active.id), over.id as EstadoIdea)
   }
 
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="flex gap-3 overflow-x-auto pb-2">
+      <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory kanban-scroll">
         {ESTADOS.map((estado) => (
           <KanbanColumn
             key={estado.key}

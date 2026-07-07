@@ -8,7 +8,7 @@ const NAV_ITEMS = [
   { to: '/settings', label: 'Settings' },
 ]
 
-function navLinkClass({ isActive }) {
+function navLinkClass({ isActive }: { isActive: boolean }) {
   return `rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
     isActive ? 'bg-text text-bg' : 'text-text-muted hover:bg-border/60 hover:text-text'
   }`

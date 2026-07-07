@@ -1,4 +1,11 @@
-export default function SimpleBarChart({ data, title }) {
+import type { PeriodBucket } from './statsSelectors'
+
+interface SimpleBarChartProps {
+  data: PeriodBucket[]
+  title?: string
+}
+
+export default function SimpleBarChart({ data, title }: SimpleBarChartProps) {
   const max = Math.max(1, ...data.map((point) => point.count))
 
   return (

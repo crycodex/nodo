@@ -5,7 +5,22 @@ const prefersDark =
   typeof window !== 'undefined' &&
   window.matchMedia?.('(prefers-color-scheme: dark)').matches
 
-export const useSettingsStore = create(
+export type Theme = 'light' | 'dark'
+
+interface SettingsState {
+  theme: Theme
+  voiceLang: string
+}
+
+interface SettingsActions {
+  setTheme: (theme: Theme) => void
+  toggleTheme: () => void
+  setVoiceLang: (voiceLang: string) => void
+}
+
+type SettingsStore = SettingsState & SettingsActions
+
+export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set, get) => ({
       theme: prefersDark ? 'dark' : 'light',

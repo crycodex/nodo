@@ -6,6 +6,7 @@ import {
   getDiscardRate,
   getDistribution,
 } from './statsSelectors'
+import { ESTADO_IDEA } from '../../services/ideaFactory'
 import { getEstadoConfig } from '../kanban/kanbanConfig'
 import StatTile from './StatTile'
 import SimpleBarChart from './SimpleBarChart'
@@ -18,6 +19,8 @@ export default function StatsPage() {
   const conversionRate = getConversionRate(ideas)
   const discardRate = getDiscardRate(ideas)
   const periodData = getCountsByPeriod(ideas, period)
+  const descartadaCount =
+    distribution.find((d) => d.estado === ESTADO_IDEA.DESCARTADA)?.count ?? 0
 
   return (
     <div className="flex flex-col gap-6">
@@ -27,10 +30,7 @@ export default function StatsPage() {
         <StatTile label="Total de ideas" value={ideas.length} />
         <StatTile label="Tasa de conversión a MVP" value={`${conversionRate}%`} />
         <StatTile label="Tasa de descarte" value={`${discardRate}%`} />
-        <StatTile
-          label="En pipeline activo"
-          value={ideas.length - distribution.find((d) => d.estado === 'descartada').count}
-        />
+        <StatTile label="En pipeline activo" value={ideas.length - descartadaCount} />
       </div>
 
       <div className="rounded-xl border border-border bg-surface p-4">

@@ -1,11 +1,18 @@
 import { useDroppable } from '@dnd-kit/core'
 import IdeaCard from './IdeaCard'
+import type { Idea } from '../../services/ideaFactory'
+import type { EstadoConfig } from './kanbanConfig'
 
-export default function KanbanColumn({ estado, ideas }) {
+interface KanbanColumnProps {
+  estado: EstadoConfig
+  ideas: Idea[]
+}
+
+export default function KanbanColumn({ estado, ideas }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: estado.key })
 
   return (
-    <div className="flex min-w-[260px] flex-1 flex-col rounded-xl border border-border bg-bg">
+    <div className="flex min-w-[260px] flex-1 flex-col snap-start rounded-xl border border-border bg-bg">
       <div
         className="flex items-center justify-between rounded-t-xl border-b border-border px-3 py-2"
         style={{ backgroundColor: estado.bg }}

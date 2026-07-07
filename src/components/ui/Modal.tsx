@@ -1,12 +1,20 @@
 import { useEffect, useRef } from 'react'
+import type { MouseEvent, ReactNode } from 'react'
 
-export default function Modal({ open, onClose, title, children }) {
-  const dialogRef = useRef(null)
+interface ModalProps {
+  open: boolean
+  onClose: () => void
+  title?: string
+  children: ReactNode
+}
+
+export default function Modal({ open, onClose, title, children }: ModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!open) return
 
-    function handleKeyDown(event) {
+    function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') onClose()
     }
 
@@ -21,7 +29,7 @@ export default function Modal({ open, onClose, title, children }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
-      onMouseDown={(event) => {
+      onMouseDown={(event: MouseEvent<HTMLDivElement>) => {
         if (event.target === event.currentTarget) onClose()
       }}
     >

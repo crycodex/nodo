@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { FormEvent } from 'react'
 import TextField from '../../components/ui/TextField'
 import TextArea from '../../components/ui/TextArea'
 import Button from '../../components/ui/Button'
@@ -6,7 +7,11 @@ import VoiceDictationButton from './VoiceDictationButton'
 import { useIdeasStore } from '../../store/ideasStore'
 import { useSettingsStore } from '../../store/settingsStore'
 
-export default function IdeaCaptureForm({ onSaved }) {
+interface IdeaCaptureFormProps {
+  onSaved?: () => void
+}
+
+export default function IdeaCaptureForm({ onSaved }: IdeaCaptureFormProps) {
   const addIdea = useIdeasStore((state) => state.addIdea)
   const voiceLang = useSettingsStore((state) => state.voiceLang)
 
@@ -15,7 +20,7 @@ export default function IdeaCaptureForm({ onSaved }) {
   const [problema, setProblema] = useState('')
   const [lugar, setLugar] = useState('')
 
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     addIdea({ titulo, idea, problema, lugar })
     setTitulo('')

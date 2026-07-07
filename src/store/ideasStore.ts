@@ -1,8 +1,26 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { createIdea } from '../services/ideaFactory'
+import type { Idea, IdeaPartial, EstadoIdea } from '../services/ideaFactory'
 
-export const useIdeasStore = create(
+export type ImportMode = 'replace' | 'merge'
+
+interface IdeasState {
+  ideas: Idea[]
+}
+
+interface IdeasActions {
+  addIdea: (partial?: IdeaPartial) => Idea
+  updateIdea: (id: string, patch: Partial<Idea>) => void
+  updateEstado: (id: string, nuevoEstado: EstadoIdea) => void
+  deleteIdea: (id: string) => void
+  importIdeas: (ideas: Idea[], mode?: ImportMode) => void
+  resetAll: () => void
+}
+
+type IdeasStore = IdeasState & IdeasActions
+
+export const useIdeasStore = create<IdeasStore>()(
   persist(
     (set) => ({
       ideas: [],

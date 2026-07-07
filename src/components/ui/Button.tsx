@@ -1,8 +1,16 @@
-const VARIANTS = {
+import type { ButtonHTMLAttributes } from 'react'
+
+type Variant = 'primary' | 'ghost' | 'danger' | 'icon'
+
+const VARIANTS: Record<Variant, string> = {
   primary: 'bg-text text-bg hover:opacity-90',
   ghost: 'bg-transparent text-text hover:bg-border/60 border border-border',
   danger: 'bg-state-descartada text-white hover:opacity-90',
   icon: 'bg-transparent text-text hover:bg-border/60 p-2 rounded-full',
+}
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: Variant
 }
 
 export default function Button({
@@ -10,7 +18,7 @@ export default function Button({
   className = '',
   children,
   ...props
-}) {
+}: ButtonProps) {
   const base =
     variant === 'icon'
       ? 'inline-flex items-center justify-center transition-colors'

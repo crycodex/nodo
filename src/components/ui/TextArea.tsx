@@ -1,4 +1,11 @@
-export default function TextArea({ label, id, className = '', rightSlot, ...props }) {
+import type { ReactNode, TextareaHTMLAttributes } from 'react'
+
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string
+  rightSlot?: ReactNode
+}
+
+export default function TextArea({ label, id, className = '', rightSlot, ...props }: TextAreaProps) {
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
       {label ? (

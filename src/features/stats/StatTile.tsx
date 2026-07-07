@@ -1,4 +1,10 @@
-export default function StatTile({ label, value, sublabel }) {
+interface StatTileProps {
+  label: string
+  value: string | number
+  sublabel?: string
+}
+
+export default function StatTile({ label, value, sublabel }: StatTileProps) {
   return (
     <div className="rounded-xl border border-border bg-surface p-4">
       <p className="text-xs font-medium uppercase tracking-wide text-text-muted">{label}</p>

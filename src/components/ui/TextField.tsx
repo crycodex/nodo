@@ -1,4 +1,10 @@
-export default function TextField({ label, id, className = '', ...props }) {
+import type { InputHTMLAttributes } from 'react'
+
+interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string
+}
+
+export default function TextField({ label, id, className = '', ...props }: TextFieldProps) {
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
       {label ? (

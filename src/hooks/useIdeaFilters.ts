@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
+import type { Idea } from '../services/ideaFactory'
 
-export function useIdeaFilters(ideas) {
+export function useIdeaFilters(ideas: Idea[]) {
   const [query, setQuery] = useState('')
 
   const filtered = useMemo(() => {
