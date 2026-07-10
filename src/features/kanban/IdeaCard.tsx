@@ -24,31 +24,31 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`rounded-lg border border-border bg-surface p-3 shadow-sm ${
+      className={`flex items-center gap-3 rounded-lg border border-border bg-surface p-3 shadow-sm ${
         isDragging ? 'opacity-50' : ''
       }`}
     >
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-sm font-medium text-text">{displayTitle}</p>
-        <button
-          type="button"
-          {...listeners}
-          {...attributes}
-          aria-label={`Arrastrar idea: ${displayTitle}`}
-          className="cursor-grab touch-none rounded p-1 text-text-muted hover:bg-border/60 active:cursor-grabbing"
-        >
-          ⠿
-        </button>
+      <button
+        type="button"
+        {...listeners}
+        {...attributes}
+        aria-label={`Arrastrar idea: ${displayTitle}`}
+        className="cursor-grab touch-none rounded p-1 text-text-muted hover:bg-border/60 active:cursor-grabbing"
+      >
+        ⠿
+      </button>
+
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium text-text">{displayTitle}</p>
+        {idea.idea ? <p className="truncate text-xs text-text-muted">{idea.idea}</p> : null}
       </div>
 
-      {idea.idea ? <p className="mt-1 line-clamp-2 text-xs text-text-muted">{idea.idea}</p> : null}
-
-      <label className="mt-3 block">
+      <label className="shrink-0">
         <span className="sr-only">Cambiar estado de la idea</span>
         <select
           value={idea.estado}
           onChange={(event) => updateEstado(idea.id, event.target.value as EstadoIdea)}
-          className="w-full rounded-md border border-border bg-bg px-2 py-1 text-xs text-text"
+          className="rounded-md border border-border bg-bg px-2 py-1 text-xs text-text"
         >
           {ESTADOS.map((estado) => (
             <option key={estado.key} value={estado.key}>
