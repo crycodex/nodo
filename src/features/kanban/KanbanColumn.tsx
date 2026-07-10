@@ -12,7 +12,7 @@ export default function KanbanColumn({ estado, ideas }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: estado.key })
 
   return (
-    <div className="flex min-w-[260px] flex-1 flex-col snap-start rounded-xl border border-border bg-bg">
+    <div className="flex w-full flex-col rounded-xl border border-border bg-bg">
       <div
         className="flex items-center justify-between rounded-t-xl border-b border-border px-3 py-2"
         style={{ backgroundColor: estado.bg }}
@@ -25,7 +25,7 @@ export default function KanbanColumn({ estado, ideas }: KanbanColumnProps) {
 
       <div
         ref={setNodeRef}
-        className={`flex min-h-[120px] flex-1 flex-col gap-2 p-2 transition-colors ${
+        className={`kanban-scroll flex min-h-[100px] gap-2 overflow-x-auto p-2 snap-x snap-mandatory transition-colors ${
           isOver ? 'bg-border/40' : ''
         }`}
       >

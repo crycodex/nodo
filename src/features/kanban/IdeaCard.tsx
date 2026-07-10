@@ -24,7 +24,7 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-3 rounded-lg border border-border bg-surface p-3 shadow-sm ${
+      className={`flex w-72 shrink-0 snap-start items-center gap-3 rounded-lg border border-border bg-surface p-3 shadow-sm ${
         isDragging ? 'opacity-50' : ''
       }`}
     >

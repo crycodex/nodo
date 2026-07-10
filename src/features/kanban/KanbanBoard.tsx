@@ -25,7 +25,7 @@ export default function KanbanBoard({ ideas }: KanbanBoardProps) {
 
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory kanban-scroll">
+      <div className="flex flex-col gap-3">
         {ESTADOS.map((estado) => (
           <KanbanColumn
             key={estado.key}
