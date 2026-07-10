@@ -44,8 +44,12 @@ export function useSpeechRecognition({ lang = 'es-ES' }: UseSpeechRecognitionOpt
   const start = useCallback(() => {
     if (!recognitionRef.current) return
     setTranscript('')
-    setIsListening(true)
-    recognitionRef.current.start()
+    try {
+      recognitionRef.current.start()
+      setIsListening(true)
+    } catch {
+      setIsListening(false)
+    }
   }, [])
 
   const stop = useCallback(() => {

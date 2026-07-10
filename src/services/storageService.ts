@@ -1,9 +1,7 @@
 import { useIdeasStore } from '../store/ideasStore'
-import { ESTADO_IDEA } from './ideaFactory'
+import { isValidIdea } from './ideaFactory'
 import type { Idea } from './ideaFactory'
 import type { ImportMode } from '../store/ideasStore'
-
-const VALID_ESTADOS = new Set(Object.values(ESTADO_IDEA))
 
 interface ValidationResult {
   valid: boolean
@@ -31,15 +29,8 @@ export function validateIdeas(data: unknown): ValidationResult {
     return { valid: false, reason: 'El archivo debe contener un arreglo de ideas.' }
   }
   for (const item of data as unknown[]) {
-    if (!item || typeof item !== 'object') {
-      return { valid: false, reason: 'Cada idea debe ser un objeto.' }
-    }
-    const { id, estado } = item as Record<string, unknown>
-    if (typeof id !== 'string' || !id) {
-      return { valid: false, reason: 'Cada idea debe tener un id válido.' }
-    }
-    if (!VALID_ESTADOS.has(estado as Idea['estado'])) {
-      return { valid: false, reason: `Estado inválido: ${String(estado)}` }
+    if (!isValidIdea(item)) {
+      return { valid: false, reason: 'Cada idea debe tener id, estado y campos de texto válidos.' }
     }
   }
   return { valid: true }
