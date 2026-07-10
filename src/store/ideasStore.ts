@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { createIdea } from '../services/ideaFactory'
+import { createIdea, isValidIdea } from '../services/ideaFactory'
 import type { Idea, IdeaPartial, EstadoIdea } from '../services/ideaFactory'
 
 export type ImportMode = 'replace' | 'merge'
@@ -69,6 +69,17 @@ export const useIdeasStore = create<IdeasStore>()(
 
       resetAll: () => set({ ideas: [] }),
     }),
-    { name: 'nodo-ideas', version: 1 }
+    {
+      name: 'nodo-ideas',
+      version: 1,
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as Partial<IdeasState> | undefined
+        const ideas =
+          persisted && Array.isArray(persisted.ideas) && persisted.ideas.every(isValidIdea)
+            ? persisted.ideas
+            : currentState.ideas
+        return { ...currentState, ideas }
+      },
+    }
   )
 )
